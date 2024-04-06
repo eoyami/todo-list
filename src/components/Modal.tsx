@@ -2,13 +2,16 @@ interface Props {
     children: React.ReactNode
 }
 
-
+//DESTRUCTURING NO PROPS CHILDREN
 const Modal = ({children}: Props) => {
 
     const closeModal = () => {
+        //GET ELEMENT MODAL
         const modal = document.querySelector("#modal")
+        // ADD CLASS HIDDEN = DISPLAY NONE
         modal!.classList.add("hidden")
     }
+    
   return (
     <div id="modal" className="hidden">
         <div className="absolute w-full h-full bg-black/30" onClick={closeModal}>

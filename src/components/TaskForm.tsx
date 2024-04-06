@@ -1,38 +1,64 @@
-import { useState, ChangeEvent, FormEvent } from "react"
+import { useState, ChangeEvent, FormEvent, useEffect } from "react"
 import { ITask } from "../interfaces/ITask"
 
-
+// TYPE DA PROPS DO COMPONENTE
 type Props = {
     btnText: string
     taskList: ITask[]
     setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>
+    task?:ITask | null
+    handleUpdate?(id: number, title: string, difficulty: number): void
 }
 
-const TaskForm = ({btnText, taskList, setTaskList}: Props) => {
+//COMPONENTE
+const TaskForm = ({btnText, taskList, setTaskList, task, handleUpdate}: Props) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [id, setId] = useState<number>(0)
     const [title, setTitle] = useState<string>("")
     const [difficulty, setDifficulty] = useState<number>(1)
+
+
+    //USE EFFECT PARA CONTROLE DE LOOPING E ATUALIZAR A TASK QUANDO ABRIR MODAL
+    useEffect(() => {
+      if(task){
+        setId(task.id)
+        setTitle(task.title)
+        setDifficulty(task.difficulty)
+      }
+
+      //DEPENDENCIA DA TASK ABERTA NO MODAL
+    }, [task])
   
 
+
+    // FUNÇÃO PARA ADICIONAR TASK NOVA
     const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-    
+      // EVITA RELOAD
+      e.preventDefault()
+      if(handleUpdate){
+        handleUpdate(id, title, difficulty)
+      } else {
+        // GERA UM ID NOVO BASEADO NO TAMANHO DO ARRAY
         const id = Math.floor(taskList.length)
-    
+        // ADICIONA UM NOVA TASK COM OS ID, TITLE E DIFFICULTY DO FORM
         const newTask: ITask = {id, title, difficulty}
-
+        // ADICIONA UMA NOVA TASK NO ARRAY TASKLIST USANDO SPREAD OPERATOR
         setTaskList!([...taskList, newTask])
-
+        //RESETA OS TITLE E DIFFICULTY
         setTitle("")
         setDifficulty(1)
-
-        console.log(taskList)
       }
-    
+      }
+
+      //SETA TITLE E DIFFICULTY BASEADO NO EVENTO ON CHANGE
       const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        //SE FOR O INPUT DO TITLE, SETA O TITULO
         if(e.target.name === "title"){
           setTitle(e.target.value)
+          //SE FOR O INPUT DO DIFFICULTY, SETA O DIFFICULTY
         } else if(e.target.name === "difficulty"){
           setDifficulty(parseInt(e.target.value))
+          //SE DER ERRO, MOSTRA ERRO
         } else {
           throw new Error()
         }

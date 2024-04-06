@@ -5,7 +5,7 @@ import { BsTrash2 } from "react-icons/bs";
 interface Props {
     taskList: ITask[]
     handleDelete(id: number): void
-    handleEdit(): void
+    handleEdit(task: ITask): void
 }
 
 function TaskList({taskList, handleDelete, handleEdit}: Props) {
@@ -20,7 +20,7 @@ function TaskList({taskList, handleDelete, handleEdit}: Props) {
             </div>
 
             <div className="flex flex-col  items-center justify-center text-2xl gap-1">
-            <div className="p-1 bg-gray-300 hover:bg-blue-300 duration-300" onClick={() => {handleEdit()}}>
+            <div className="p-1 bg-gray-300 hover:bg-blue-300 duration-300" onClick={() => {handleEdit(task)}}>
             <BsPencilSquare />
             </div>
             <div onClick={() => {handleDelete(task.id)}} className="p-1 bg-gray-300 hover:bg-blue-300 duration-300">
@@ -30,7 +30,7 @@ function TaskList({taskList, handleDelete, handleEdit}: Props) {
             </div>
             ))
         )
-        : (<p>não tem tarefas</p>)}
+        : (<p>Não tem tarefas</p>)}
     </>
   )
 }
