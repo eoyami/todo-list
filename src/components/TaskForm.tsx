@@ -39,7 +39,6 @@ const TaskForm = ({btnText, taskList, setTaskList}: Props) => {
       }
   return (
     <form onSubmit={addTaskHandler} className="w-full">
-      <div></div>
         <div className="flex flex-col">
             <label className="text-xl" htmlFor="title">Título</label>
             <input className="p-1 border-2 border-blue-400/100" id="title" name="title" type="text" required placeholder="Coloque um título aqui!" onChange={handleChange} value={title} />
