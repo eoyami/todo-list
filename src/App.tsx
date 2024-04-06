@@ -12,13 +12,17 @@ function App() {
   const [taskList, setTaskList] = useState<ITask[]>([])
   const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null)
 
+  
+  //DELETAR TASK USANDO FILTER E RETORNANDO UMA LISTA SEM A TASK ESCOLHIDA
   const deleteTask = (id:number) => {
     setTaskList(
       taskList.filter((task) => {
+        //RETURN DE UMA LISTA SEM A TASK DO ID ESPECIFICO
         return task.id !== id;
       }))
   }
 
+  //MOSTRAR OU ESCONDER MODAL
   const hideOrShowModal = (display: boolean):void => {
       const modal = document.querySelector("#modal")
     if(display) {
@@ -28,19 +32,24 @@ function App() {
     }
   }
 
+
+  //ABRIR O MODAL E PREENCHER COM DADOS DA TASK ESCOLHIDA
   const EditTask = (task: ITask):void => {
     hideOrShowModal(true)
     setTaskToUpdate(task)
   }
 
+
+  // FUNCÃO DE UPDATE 
   const updateTask = (id: number, title: string, difficulty: number) => {
-    
+    // CRIA UMA VARIAVEL COM OS DADOS REPASSADOS PELOS ARGS
     const updatedTask: ITask = {id, title, difficulty}
 
+    //CRIA UMA NOVA LISTA EM CASO DO ID SER IGUAL, ATUALIZANDO OS DADOS PASSADOS
     const updatedListTask = taskList.map((task) => {
       return task.id === updatedTask.id ? updatedTask : task 
     })
-
+    //ATUALIZA PRA NOVA LISTA
     setTaskList(updatedListTask)
     hideOrShowModal(false)
 
